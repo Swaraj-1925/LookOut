@@ -3,8 +3,8 @@ from look_out import LookOut
 
 pipeline = LookOut(use_osnet=False)
 results = pipeline.run_complete_pipeline(
-    query_image="/home/kevin/Projects/LookOut/dataset/q/yt_speed_vid1.jpg",
-    video_path="/home/kevin/Projects/LookOut/dataset/vids/yt_speed_vid1.mp4",
+    query_image="./dummy_dataset/q/yt_speed_vid1.jpg",
+    video_path="./dummy_dataset/vids/yt_speed_vid1.mp4",
     output_dir="./test1",
 
     # Threshold tuning for accuracy:
