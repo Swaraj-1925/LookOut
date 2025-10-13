@@ -60,15 +60,13 @@ class LookOut:
         # Phase 1: Face Recognition
         print("PHASE 1: FACE RECOGNITION (ArcFace)")
         faces_dir = output_dir / "phase1_faces"
-        query_embedding, _ = self.face_pipeline.extract_query_embedding(query_image)
+        query_embedding= self.face_pipeline.extract_query_features(query_image)
         matches = self.face_pipeline.process_video_and_find_person(
-            video_path, query_embedding, str(faces_dir),
-# CRITICAL: Lower thresholds for better detection
-        verification_threshold=0.45,      # LOWERED from 0.55
-        confidence_threshold=0.25,        # LOWERED from 0.5
-        frame_skip=1
-        )
-
+                video_path=video_path,
+                query_features=query_embedding,
+                output_folder=faces_dir,
+                frame_skip=frame_skip
+                )
         if not matches:
             print("No face matches found. Try lowering face_threshold.")
             return None
@@ -152,7 +150,7 @@ class LookOut:
             f.write("PHASE 1: FACE RECOGNITION\n")
             f.write(f"  - Face matches found: {len(faces)}\n")
             if faces:
-                face_sims = [m['similarity'] for m in faces]
+                face_sims = [m['final_score'] for m in faces]
                 f.write(f"  - Average similarity: {np.mean(face_sims):.3f}\n")
                 f.write(f"  - Max similarity: {np.max(face_sims):.3f}\n")
                 f.write(f"  - Min similarity: {np.min(face_sims):.3f}\n")

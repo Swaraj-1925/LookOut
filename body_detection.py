@@ -341,7 +341,7 @@ class BodyDetectionPipeline:
                                   for k, v in body_bbox.items() if k != 'keypoints'},
                     'detection_method': body_bbox['method'],
                     'filename': filename,
-                    'similarity': match['similarity']
+                    'similarity': match['final_score']
                 }
 
                 body_results.append(body_result)
