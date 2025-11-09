@@ -143,7 +143,7 @@ class VideoTracker:
             if max_similarity >= reid_threshold:
 
                 # Second level: Face verification (if enabled)
-                face_match = False
+                face_match = face_verification
                 face_sim = 0.0
 
                 if face_verification and query_embedding is not None:

@@ -54,21 +54,21 @@ class InvestigationReportGenerator:
         sightings = self._process_sightings(tracking_results, fps)
 
         # 1. Generate simple text summary
-        print("✓ Generating text summary...")
+        print("Generating text summary...")
         self._generate_text_summary(
             sightings, video_name, duration, query_image_path,
             output_folder / "INVESTIGATION_SUMMARY.txt", case_name
         )
 
         # 2. Generate CSV for Excel
-        print("✓ Generating CSV report...")
+        print("Generating CSV report...")
         self._generate_csv_report(
             sightings, video_name,
             output_folder / "sightings_report.csv"
         )
 
         # 3. Generate HTML visual report
-        print("✓ Generating HTML report...")
+        print("Generating HTML report...")
         self._generate_html_report(
             sightings, video_name, duration, query_image_path,
             output_folder / "visual_report.html", case_name
@@ -82,7 +82,7 @@ class InvestigationReportGenerator:
         )
 
         # 5. Create timeline image
-        print("✓ Creating timeline visualization...")
+        print("Creating timeline visualization...")
         self._create_timeline_image(
             sightings, duration,
             output_folder / "timeline.png"
@@ -93,11 +93,11 @@ class InvestigationReportGenerator:
         print(f"{'='*60}")
         print(f"Location: {output_folder}")
         print(f"Files:")
-        print(f"  📄 INVESTIGATION_SUMMARY.txt - Quick overview")
-        print(f"  📊 sightings_report.csv - Excel-compatible data")
-        print(f"  🌐 visual_report.html - Visual report (open in browser)")
-        print(f"  📈 timeline.png - Visual timeline")
-        print(f"  🎬 video_clips/ - Individual sighting clips")
+        print(f"  INVESTIGATION_SUMMARY.txt - Quick overview")
+        print(f"  sightings_report.csv - Excel-compatible data")
+        print(f"  visual_report.html - Visual report (open in browser)")
+        print(f"  timeline.png - Visual timeline")
+        print(f"  video_clips/ - Individual sighting clips")
         print(f"{'='*60}\n")
 
         return str(output_folder / "INVESTIGATION_SUMMARY.txt")
@@ -401,13 +401,13 @@ class InvestigationReportGenerator:
 </head>
 <body>
     <div class="header">
-        <h1>🔍 Investigation Report</h1>
+        <h1>Investigation Report</h1>
         <h2>{case_name}</h2>
         <p>Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
     </div>
 
     <div class="summary-box">
-        <h2>📹 Video Information</h2>
+        <h2>Video Information</h2>
         <p><strong>File:</strong> {video_name}</p>
         <p><strong>Duration:</strong> {self._format_timestamp(duration)}</p>
     </div>
@@ -416,7 +416,7 @@ class InvestigationReportGenerator:
         if not sightings:
             html += """
     <div class="no-sightings">
-        <h2>❌ No Sightings Found</h2>
+        <h2> No Sightings Found</h2>
         <p>The person was not detected in this video footage.</p>
     </div>
 """
@@ -427,7 +427,7 @@ class InvestigationReportGenerator:
 
             html += f"""
     <div class="summary-box">
-        <h2>📊 Detection Summary</h2>
+        <h2> Detection Summary</h2>
         <div class="summary-stats">
             <div class="stat-card">
                 <div class="stat-label">Total Sightings</div>
@@ -438,10 +438,6 @@ class InvestigationReportGenerator:
                 <div class="stat-value">{total_duration:.0f}s</div>
             </div>
             <div class="stat-card">
-                <div class="stat-label">Face Verified</div>
-                <div class="stat-value">{face_verified}</div>
-            </div>
-            <div class="stat-card">
                 <div class="stat-label">Avg Confidence</div>
                 <div class="stat-value">{avg_confidence:.0f}%</div>
             </div>
@@ -449,54 +445,10 @@ class InvestigationReportGenerator:
     </div>
 
     <div class="timeline">
-        <h2>📈 Visual Timeline</h2>
+        <h2> Visual Timeline</h2>
         <img src="timeline.png" alt="Detection Timeline">
     </div>
 
-    <div class="summary-box">
-        <h2>🎯 Detailed Sightings</h2>
-"""
-
-            for idx, sighting in enumerate(sightings, 1):
-                verified_badge = ('<span class="verified">✓ FACE VERIFIED</span>'
-                                 if sighting['face_verified']
-                                 else '<span class="not-verified">BODY MATCH ONLY</span>')
-
-                html += f"""
-        <div class="sighting">
-            <h3>Sighting #{idx} {verified_badge}</h3>
-            <div class="sighting-details">
-                <div class="detail-item">
-                    <div class="detail-label">Start Time</div>
-                    <div class="detail-value">{self._format_timestamp(sighting['start_time'])}</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">End Time</div>
-                    <div class="detail-value">{self._format_timestamp(sighting['end_time'])}</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Duration</div>
-                    <div class="detail-value">{sighting['duration']:.1f}s</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Track ID</div>
-                    <div class="detail-value">{sighting['track_id']}</div>
-                </div>
-            </div>
-            <div style="margin-top: 15px;">
-                <div class="detail-label">Confidence Level</div>
-                <div class="confidence-bar">
-                    <div class="confidence-fill" style="width: {sighting['avg_confidence']*100:.0f}%"></div>
-                </div>
-                <div style="text-align: right; margin-top: 5px; font-weight: bold;">
-                    {sighting['avg_confidence']*100:.1f}%
-                </div>
-            </div>
-            <p style="margin-top: 15px;">
-                <strong>📹 Video Clip:</strong>
-                <code>video_clips/sighting_{idx:02d}.mp4</code>
-            </p>
-        </div>
 """
 
             html += """
@@ -595,13 +547,9 @@ class InvestigationReportGenerator:
         cv2.putText(img, "Detection Timeline", (width // 2 - 100, 30),
                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
 
-        # Legend
-        cv2.rectangle(img, (50, height - 80), (70, height - 60), (0, 200, 0), -1)
-        cv2.putText(img, "Face Verified", (80, height - 65),
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
 
         cv2.rectangle(img, (50, height - 50), (70, height - 30), (0, 150, 255), -1)
-        cv2.putText(img, "Body Match Only", (80, height - 35),
+        cv2.putText(img, "Deteaction", (80, height - 35),
                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
 
         cv2.imwrite(str(output_path), img)
