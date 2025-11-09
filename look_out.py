@@ -30,6 +30,7 @@ class LookOut:
 
     def run_complete_pipeline(self, query_image, video_path, output_dir,
                              face_threshold=0.6, reid_threshold=0.65, frame_skip=1,
+                            verification_threshold=0.45,confidence_threshold=0.25,
                              use_face_verification=True, use_temporal_filter=True):
         """
         Run complete enhanced pipeline with ByteTrack and OSNet
@@ -63,9 +64,8 @@ class LookOut:
         query_embedding, _ = self.face_pipeline.extract_query_embedding(query_image)
         matches = self.face_pipeline.process_video_and_find_person(
             video_path, query_embedding, str(faces_dir),
-# CRITICAL: Lower thresholds for better detection
-        verification_threshold=0.45,      # LOWERED from 0.55
-        confidence_threshold=0.25,        # LOWERED from 0.5
+        verification_threshold=0.45,
+        confidence_threshold=0.25,
         frame_skip=1
         )
 

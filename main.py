@@ -8,9 +8,11 @@ results = pipeline.run_complete_pipeline(
     output_dir="./test1",
 
     # Threshold tuning for accuracy:
-    face_threshold=0.55,      # Lower = more initial candidates (0.5-0.6)
-    reid_threshold=0.65,      # Higher = fewer false positives (0.6-0.75)
+    face_threshold=0.3,      # Lower = more initial candidates (0.5-0.6)
+    reid_threshold=0.4,      # Higher = fewer false positives (0.6-0.75)
 
+    verification_threshold=0.30,
+    confidence_threshold=0.30,
     # Performance vs accuracy:
     frame_skip=1,             # 1 = best accuracy, 2-3 = faster
 
